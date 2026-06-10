@@ -131,8 +131,11 @@ export default function ShareImage({
         {champion && (
           <div className="share-image__champion">
             <h2 className="share-image__champion-title">SIEGER</h2>
-            <div className="share-image__champion-logo">
-              <img src={champion.logo} alt={champion.name} />
+            <div style={{ position: 'relative' }}>
+              <div style={{ position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)', fontSize: '80px', zIndex: 10, textShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>👑</div>
+              <div className="share-image__champion-logo">
+                <img src={champion.logo} alt={champion.name} />
+              </div>
             </div>
           </div>
         )}
