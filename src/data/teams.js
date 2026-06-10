@@ -14,41 +14,43 @@
 // → Echte Logos hier als Import oder als Pfad in /public/logos/ ersetzen
 const PLACEHOLDER_LOGO = 'https://dummyimage.com/300.png/09f/fff';
 
+const base = import.meta.env.BASE_URL;
+
 export const GROUPS = {
   A: {
     name: 'Gruppe A',
     letter: 'A',
     teams: [
-      { id: 'wuermla', name: 'SV Würmla', shortName: 'Würmla', logo: '/teams/SV Würmla.png' },
-      { id: 'rust', name: 'SV hb24 Viktoria Rust', shortName: 'Rust', logo: '/teams/SV Rust.png' },
-      { id: 'langenrohr', name: 'SV Langenrohr', shortName: 'Langenrohr', logo: '/teams/SV Langenrohr.png' },
+      { id: 'wuermla', name: 'SV Würmla', shortName: 'Würmla', logo: `${base}teams/SV Wu\u0308rmla.png` },
+      { id: 'rust', name: 'SV hb24 Viktoria Rust', shortName: 'Rust', logo: `${base}teams/SV Rust.png` },
+      { id: 'langenrohr', name: 'SV Langenrohr', shortName: 'Langenrohr', logo: `${base}teams/SV Langenrohr.png` },
     ],
   },
   B: {
     name: 'Gruppe B',
     letter: 'B',
     teams: [
-      { id: 'tulln', name: 'FC Tulln', shortName: 'Tulln', logo: '/teams/FC Tulln.png' },
-      { id: 'atzenbrugg', name: 'USV Atzenbrugg-Heiligeneich', shortName: 'Atzenbrugg', logo: '/teams/USV-Atzenbrugg-Heiligeneich_whitebg.png' },
-      { id: 'standrae', name: 'USV St. Andrä Wördern', shortName: 'St. Andrä', logo: '/teams/SV_St_Andrae_Woerdern_Logo.png' },
+      { id: 'tulln', name: 'FC Tulln', shortName: 'Tulln', logo: `${base}teams/FC Tulln.png` },
+      { id: 'atzenbrugg', name: 'USV Atzenbrugg-Heiligeneich', shortName: 'Atzenbrugg', logo: `${base}teams/USV-Atzenbrugg-Heiligeneich_whitebg.png` },
+      { id: 'standrae', name: 'USV St. Andrä Wördern', shortName: 'St. Andrä', logo: `${base}teams/SV_St_Andrae_Woerdern_Logo.png` },
     ],
   },
   C: {
     name: 'Gruppe C',
     letter: 'C',
     teams: [
-      { id: 'muckendorf', name: 'USC Muckendorf/Zeiselmauer', shortName: 'Muckendorf', logo: '/teams/USC Muckendorf.png' },
-      { id: 'sieghartskirchen', name: 'SV Sieghartskirchen', shortName: 'Sieghartsk.', logo: '/teams/SV Sieghartskirchen.png' },
-      { id: 'zwentendorf', name: 'SV Zwentendorf', shortName: 'Zwentendorf', logo: '/teams/SV Zwentendorf.png' },
+      { id: 'muckendorf', name: 'USC Muckendorf/Zeiselmauer', shortName: 'Muckendorf', logo: `${base}teams/USC Muckendorf.png` },
+      { id: 'sieghartskirchen', name: 'SV Sieghartskirchen', shortName: 'Sieghartsk.', logo: `${base}teams/SV Sieghartskirchen.png` },
+      { id: 'zwentendorf', name: 'SV Zwentendorf', shortName: 'Zwentendorf', logo: `${base}teams/SV Zwentendorf.png` },
     ],
   },
   D: {
     name: 'Gruppe D',
     letter: 'D',
     teams: [
-      { id: 'langenlebarn', name: 'SV "Donau" Langenlebarn', shortName: 'Langenlebarn', logo: '/teams/SV Langenlebarn.png' },
-      { id: 'sitzenberg', name: 'SC Sitzenberg-Reidling', shortName: 'Sitzenberg', logo: '/teams/SC Sitzenberg Reidling.png' },
-      { id: 'tulbing', name: 'SK Lugus Tulbing', shortName: 'Tulbing', logo: '/teams/SK Lugus Tulbing.png' },
+      { id: 'langenlebarn', name: 'SV "Donau" Langenlebarn', shortName: 'Langenlebarn', logo: `${base}teams/SV Langenlebarn.png` },
+      { id: 'sitzenberg', name: 'SC Sitzenberg-Reidling', shortName: 'Sitzenberg', logo: `${base}teams/SC Sitzenberg Reidling.png` },
+      { id: 'tulbing', name: 'SK Lugus Tulbing', shortName: 'Tulbing', logo: `${base}teams/SK Lugus Tulbing.png` },
     ],
   },
 };
@@ -74,10 +76,10 @@ export function findTeamById(teamId) {
  * Platzhalter-Logo für RTC-Tippspiel-Logo oben
  * → Echtes Logo ersetzen: /public/logos/rtc-tippspiel.png
  */
-export const RTC_LOGO = '/logos/logo_gr_new.png';
+export const RTC_LOGO = `${base}logos/logo_gr_new.png`;
 
 /**
  * Platzhalter-Logo für Sponsor (Hialsorb Cold)
  * → Echtes Logo ersetzen: /public/logos/hialsorb-cold.png
  */
-export const SPONSOR_LOGO = '/logos/05_Hialsorb-Boden.png';
+export const SPONSOR_LOGO = `${base}logos/05_Hialsorb-Boden.png`;
