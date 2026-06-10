@@ -35,7 +35,7 @@
   font-weight: 900;
   color: #ffffff;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   letter-spacing: -0.02em;
 }
 
@@ -43,18 +43,18 @@
 .share-image__logo-header {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .share-image__rtc-logo {
-  width: 900px;
-  height: 130px;
+  width: auto;
+  height: 180px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 16px 32px;
 }
 
 .share-image__rtc-logo img {
@@ -72,7 +72,7 @@
 .share-image__group-letters {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 0 20px;
 }
 
@@ -99,8 +99,8 @@
 }
 
 .share-image__team-cell {
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   border-radius: 20px;
   background: #ffffff;
   display: flex;
@@ -116,8 +116,8 @@
 }
 
 .share-image__team-logo {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
