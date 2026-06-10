@@ -252,13 +252,22 @@
   transform: translateY(-24px);
 }
 
+/* Footer (Sieger & Sponsor) */
+.share-image__footer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 80px;
+  width: 100%;
+  margin-top: auto;
+}
+
 /* Sieger */
 .share-image__champion {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  margin-bottom: 20px;
 }
 
 .share-image__champion-title {
@@ -293,7 +302,6 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  margin-top: auto;
 }
 
 .share-image__sponsor-label {

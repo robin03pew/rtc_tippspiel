@@ -127,25 +127,28 @@ export default function ShareImage({
           </div>
         )}
 
-        {/* Sieger */}
-        {champion && (
-          <div className="share-image__champion">
-            <h2 className="share-image__champion-title">SIEGER</h2>
-            <div style={{ position: 'relative' }}>
-              <div style={{ position: 'absolute', top: '-75px', left: '50%', transform: 'translateX(-50%)', fontSize: '80px', zIndex: 10, textShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>👑</div>
-              <div className="share-image__champion-logo">
-                <img src={champion.logo} alt={champion.name} />
+        {/* Footer: Sieger & Sponsor nebeneinander */}
+        <div className="share-image__footer">
+          {/* Sieger */}
+          {champion && (
+            <div className="share-image__champion">
+              <h2 className="share-image__champion-title">SIEGER</h2>
+              <div style={{ position: 'relative' }}>
+                <div style={{ position: 'absolute', top: '-100px', left: '50%', transform: 'translateX(-50%)', fontSize: '80px', zIndex: 10, textShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>👑</div>
+                <div className="share-image__champion-logo">
+                  <img src={champion.logo} alt={champion.name} />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Sponsor */}
-        <div className="share-image__sponsor">
-          <span className="share-image__sponsor-label">presented by</span>
-          <div className="share-image__sponsor-logo">
-            {/* LOGO AUSTAUSCHEN: Hialsorb Cold Sponsor-Logo */}
-            <img src={SPONSOR_LOGO} alt="Hialsorb Cold" />
+          {/* Sponsor */}
+          <div className="share-image__sponsor">
+            <span className="share-image__sponsor-label">presented by</span>
+            <div className="share-image__sponsor-logo">
+              {/* LOGO AUSTAUSCHEN: Hialsorb Cold Sponsor-Logo */}
+              <img src={SPONSOR_LOGO} alt="Hialsorb Cold" />
+            </div>
           </div>
         </div>
       </div>
