@@ -6,6 +6,7 @@ import './ShareButton.css';
 export default function ShareButton({ isComplete, shareImageRef, missingSteps }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const canShare = canNativeShareFiles();
 
   const handleShare = async () => {
@@ -16,6 +17,8 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps })
 
     try {
       const blob = await generateShareImage(shareImageRef.current);
+      const url = URL.createObjectURL(blob);
+      setGeneratedImageUrl(url);
 
       if (canShare) {
         try {
@@ -83,6 +86,13 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps })
       </button>
 
       {error && <p className="share-section__error">{error}</p>}
+
+      {generatedImageUrl && (
+        <div className="share-section__preview">
+          <p className="share-section__preview-hint">Tipp: Halte das Bild gedrückt oder mache einen Rechtsklick, um es zu kopieren oder zu speichern.</p>
+          <img src={generatedImageUrl} alt="Dein generierter Tipp" className="share-section__preview-image" />
+        </div>
+      )}
     </div>
   );
 }

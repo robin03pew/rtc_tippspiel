@@ -32,9 +32,6 @@ export default function ShareImage({
   return (
     <div className="share-image-wrapper">
       <div className="share-image" ref={shareRef}>
-        {/* Überschrift */}
-        <h1 className="share-image__title">MEIN TIPP</h1>
-
         {/* RTC Logo */}
         <div className="share-image__logo-header">
           <div className="share-image__rtc-logo">
@@ -42,6 +39,9 @@ export default function ShareImage({
             <img src={RTC_LOGO} alt="Region Tullnerfeld Cup Tippspiel" />
           </div>
         </div>
+
+        {/* Überschrift */}
+        <h1 className="share-image__title">MEIN TIPP</h1>
 
         {/* Gruppen */}
         <div className="share-image__groups">
