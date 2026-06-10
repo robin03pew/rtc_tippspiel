@@ -1,0 +1,282 @@
+/* ============================================================
+   DESIGN SYSTEM – Region Tullnerfeld Cup Tippspiel
+   ============================================================ */
+
+:root {
+  /* Farben */
+  --color-primary: #212b70;
+  --color-primary-dark: #181f54;
+  --color-primary-light: #2d3a94;
+  --color-accent: #f28d00;
+  --color-accent-light: #f9a833;
+  --color-accent-glow: rgba(242, 141, 0, 0.25);
+  --color-bg: #212b70;
+  --color-card: #ffffff;
+  --color-card-alt: #f4f6fb;
+  --color-text-light: #ffffff;
+  --color-text-dark: #1a1a2e;
+  --color-text-muted: rgba(255, 255, 255, 0.65);
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-disabled: rgba(255, 255, 255, 0.3);
+  --color-success: #2ecc71;
+  --color-danger: #e74c3c;
+
+  /* Typografie */
+  --font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.18);
+  --shadow-glow: 0 0 20px rgba(242, 141, 0, 0.3);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-regular);
+  background-color: var(--color-bg);
+  color: var(--color-text-light);
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   LOGO CONTAINER (universal)
+   Vereinslogos haben unterschiedliche Seitenverhältnisse.
+   Wrap jedes Logo in diesen Container.
+   ============================================================ */
+
+.logo-container {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-container img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.logo-container--sm {
+  width: 40px;
+  height: 40px;
+}
+
+.logo-container--lg {
+  width: 80px;
+  height: 80px;
+}
+
+.logo-container--xl {
+  width: 100px;
+  height: 100px;
+}
+
+/* ============================================================
+   SCROLLBAR (Webkit)
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 200px;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ============================================================
+   DIALOG (native) – für Platzhalter-Seiten
+   ============================================================ */
+
+dialog {
+  font-family: var(--font-family);
+  background: var(--color-card);
+  color: var(--color-text-dark);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  max-width: 480px;
+  width: calc(100% - var(--space-xl) * 2);
+  box-shadow: var(--shadow-lg);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+dialog h2 {
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.25rem;
+}
+
+dialog p {
+  margin-bottom: var(--space-md);
+  line-height: 1.6;
+  color: #555;
+}
+
+dialog button.dialog-close {
+  display: block;
+  margin: var(--space-lg) auto 0;
+  padding: var(--space-sm) var(--space-xl);
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-pill);
+  font-weight: var(--font-weight-semibold);
+  transition: background var(--transition-fast);
+}
+
+dialog button.dialog-close:hover {
+  background: var(--color-primary-light);
+}

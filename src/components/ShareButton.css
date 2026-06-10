@@ -1,0 +1,81 @@
+/* ============================================================
+   SHARE BUTTON & SECTION
+   ============================================================ */
+
+.share-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-md);
+}
+
+.share-section__hint {
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  text-align: center;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(242, 141, 0, 0.1);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(242, 141, 0, 0.25);
+  max-width: 360px;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-card);
+  color: var(--color-primary);
+  font-size: 1rem;
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  min-width: 250px;
+  min-height: 52px;
+}
+
+.share-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.share-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.share-btn:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-disabled);
+  box-shadow: none;
+}
+
+.share-btn--loading {
+  pointer-events: none;
+}
+
+.share-btn__icon {
+  flex-shrink: 0;
+}
+
+.share-btn__spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(33, 43, 112, 0.2);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.share-section__error {
+  font-size: 0.85rem;
+  color: var(--color-danger);
+  text-align: center;
+}

@@ -1,0 +1,61 @@
+/* ============================================================
+   PENALTY PICKER
+   ============================================================ */
+
+.penalty-picker {
+  animation: slideDown var(--transition-slow) forwards;
+  overflow: hidden;
+  margin-top: var(--space-sm);
+  padding: var(--space-md);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-accent);
+}
+
+.penalty-picker__label {
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  margin-bottom: var(--space-sm);
+  color: var(--color-accent);
+}
+
+.penalty-picker__options {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.penalty-picker__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid transparent;
+  transition: all var(--transition-normal);
+  min-width: 80px;
+}
+
+.penalty-picker__btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
+}
+
+.penalty-picker__btn--selected {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.penalty-picker__btn--selected:hover {
+  background: var(--color-accent-light);
+}
+
+.penalty-picker__btn span {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}

@@ -1,0 +1,119 @@
+/* ============================================================
+   MATCH CARD (Halbfinale / Finale)
+   ============================================================ */
+
+.match-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg) var(--space-md);
+  transition: all var(--transition-normal);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.match-card:hover:not(.match-card--disabled) {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.match-card--disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  filter: grayscale(0.5);
+}
+
+.match-card__label {
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: var(--color-accent);
+  margin-bottom: var(--space-md);
+}
+
+.match-card__body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.match-card__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.match-card__team .logo-container {
+  width: 48px;
+  height: 48px;
+}
+
+.match-card__team-name {
+  font-size: 0.65rem;
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-muted);
+}
+
+.match-card__scores {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.match-card__colon {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-text-light);
+  margin: 0 2px;
+}
+
+.match-card__placeholder {
+  text-align: center;
+  padding: var(--space-lg);
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Finale – etwas größer */
+.match-card--finale {
+  border-color: var(--color-accent);
+  background: rgba(242, 141, 0, 0.08);
+}
+
+.match-card--finale .match-card__team .logo-container {
+  width: 56px;
+  height: 56px;
+}
+
+.match-card--finale .match-card__colon {
+  font-size: 1.75rem;
+}
+
+@media (min-width: 480px) {
+  .match-card__team .logo-container {
+    width: 56px;
+    height: 56px;
+  }
+
+  .match-card__team-name {
+    font-size: 0.75rem;
+    max-width: 90px;
+  }
+
+  .match-card--finale .match-card__team .logo-container {
+    width: 64px;
+    height: 64px;
+  }
+}
