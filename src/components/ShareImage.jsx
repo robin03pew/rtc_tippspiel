@@ -33,7 +33,7 @@ export default function ShareImage({
     <div className="share-image-wrapper">
       <div className="share-image" ref={shareRef}>
         {/* Überschrift */}
-        <h1 className="share-image__title">Dein Tipp:</h1>
+        <h1 className="share-image__title">MEIN TIPP</h1>
 
         {/* RTC Logo */}
         <div className="share-image__logo-header">
@@ -123,6 +123,16 @@ export default function ShareImage({
               <div className="share-image__finale-logo">
                 <img src={finalists.teamB.logo} alt={finalists.teamB.name} />
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Sieger */}
+        {champion && (
+          <div className="share-image__champion">
+            <h2 className="share-image__champion-title">SIEGER</h2>
+            <div className="share-image__champion-logo">
+              <img src={champion.logo} alt={champion.name} />
             </div>
           </div>
         )}

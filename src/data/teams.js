@@ -21,7 +21,7 @@ export const GROUPS = {
     name: 'Gruppe A',
     letter: 'A',
     teams: [
-      { id: 'wuermla', name: 'SV Würmla', shortName: 'Würmla', logo: `${base}teams/SV Wu\u0308rmla.png` },
+      { id: 'wuermla', name: 'SV Würmla', shortName: 'Würmla', logo: `${base}teams/SV Wuermla.png` },
       { id: 'rust', name: 'SV hb24 Viktoria Rust', shortName: 'Rust', logo: `${base}teams/SV Rust.png` },
       { id: 'langenrohr', name: 'SV Langenrohr', shortName: 'Langenrohr', logo: `${base}teams/SV Langenrohr.png` },
     ],
