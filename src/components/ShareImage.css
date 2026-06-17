@@ -1,326 +1,360 @@
 /* ============================================================
    SHARE IMAGE – 1080×1920 Instagram Story Template
    
-   Das Element wird in voller Größe (1080×1920px) gerendert
-   und über transform: scale() im Viewport herunterskaliert.
-   html2canvas erfasst es in Originalgröße.
+   Matches the hialsorb_story mockup layout precisely:
+   - Absolute positioning to guarantee exact layout and SVG alignment
+   - 200px safe zones top and bottom
+   - Unified white header with exact RTC green (#93b63d) title
+   - Vertical pill groups with orange winner highlight
+   - Thick white SVG bracket lines (rgba 255,255,255,0.5)
+   - Medium semifinal cards
+   - Large hero final card with floating crown
+   - Horizontal sponsor footer with transparent hialsorb logo
    ============================================================ */
 
 .share-image-wrapper {
-  /* Versteckter Container – wird nur für html2canvas sichtbar gemacht */
   position: absolute;
   left: -9999px;
   top: 0;
   overflow: hidden;
-  /* Nicht display:none verwenden – html2canvas braucht das Element im DOM */
 }
 
 .share-image {
   width: 1080px;
   height: 1920px;
   background-color: #212b70;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 150px 60px 150px;
   font-family: 'Barlow', sans-serif;
   color: #ffffff;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Überschrift */
-.share-image__title {
-  font-size: 80px;
-  font-weight: 900;
-  color: #ffffff;
-  text-align: center;
-  margin-bottom: 10px;
-  letter-spacing: -0.02em;
+/* ==========================================================
+   BRACKET CONNECTOR LINES (OVERLAY)
+   ========================================================== */
+.si-bracket-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1080px;
+  height: 1920px;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* RTC Logo Header */
-.share-image__logo-header {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
+.si-bracket-overlay path {
+  stroke: rgba(255, 255, 255, 1);
+  stroke-width: 10;
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
-.share-image__rtc-logo {
-  width: auto;
-  height: 180px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 32px;
-}
-
-.share-image__rtc-logo img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-/* Gruppen */
-.share-image__groups {
+/* ==========================================================
+   CONTENT LAYERS
+   ========================================================== */
+.si-content {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  margin-bottom: 30px;
+  height: 100%;
+  z-index: 2;
 }
 
-.share-image__group-letters {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 10px;
-  padding: 0 20px;
-}
-
-.share-image__group-letter {
-  font-size: 56px;
-  font-weight: 900;
-  color: #f28d00;
-  text-align: center;
-  width: 220px;
-}
-
-.share-image__group-columns {
-  display: flex;
-  justify-content: space-around;
-  padding: 0 20px;
-}
-
-.share-image__group-col {
+/* ==========================================================
+   HEADER (Y: 200 to 380)
+   ========================================================== */
+.si-header-wrap {
+  position: absolute;
+  top: 180px;
+  left: 110px;
+  /* (1080 - 860) / 2 */
+  width: 860px;
+  height: 300px;
+  background: #ffffff;
+  border-radius: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  width: 220px;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.share-image__team-cell {
-  width: 150px;
-  height: 150px;
-  border-radius: 20px;
-  background: #ffffff;
+.si-header__logo {
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  transition: none;
+  margin-bottom: 8x;
 }
 
-.share-image__team-cell--winner {
-  background: #f28d00;
-  box-shadow: 0 4px 20px rgba(242, 141, 0, 0.4);
-}
-
-.share-image__team-logo {
-  width: 110px;
-  height: 110px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.share-image__team-logo img {
-  max-width: 100%;
+.si-header__logo img {
   max-height: 100%;
+  max-width: 100%;
   object-fit: contain;
 }
 
-/* Halbfinale */
-.share-image__semis {
+.si-header__title {
+  font-size: 82px;
+  font-weight: 900;
+  color: #93b63d;
+  /* Exact RTC Green requested */
+  text-align: center;
+  letter-spacing: 0.05em;
+  margin: 0;
+  line-height: 1;
+}
+
+/* ==========================================================
+   GROUPS (Y: 460 to 960)
+   ========================================================== */
+.si-groups-wrap {
+  position: absolute;
+  top: 480px;
+  left: 0;
+  width: 1080px;
+  height: 500px;
   display: flex;
   justify-content: center;
   gap: 60px;
-  margin-bottom: 20px;
+  /* Space between the 4 columns */
+}
+
+.si-groups__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 180px;
+}
+
+.si-groups__letter {
+  font-size: 60px;
+  font-weight: 900;
+  color: #f28d00;
+  text-align: center;
+  height: 60px;
+  line-height: 60px;
+  margin-bottom: 30px;
+}
+
+.si-groups__pill {
+  width: 180px;
+  height: 420px;
+  background: #ffffff;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.si-groups__team-slot {
   width: 100%;
-}
-
-.share-image__match {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 24px;
-  padding: 20px 28px;
-}
-
-.share-image__match-team {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.share-image__match-team--penalty-winner {
-  border: 4px solid #f28d00;
-  border-radius: 16px;
-  padding: 4px;
-}
-
-.share-image__match-logo {
-  width: 80px;
-  height: 80px;
+  height: 140px;
+  /* 420 / 3 */
   display: flex;
   align-items: center;
   justify-content: center;
   background: #ffffff;
-  border-radius: 16px;
-  padding: 12px;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
-.share-image__match-logo img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+.si-groups__team-slot--winner {
+  background: #f28d00;
 }
 
-.share-image__match-score {
-  font-size: 56px;
-  font-weight: 900;
-  color: #ffffff;
-  min-width: 100px;
-  text-align: center;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(-24px);
-}
-
-/* Connector (dekorativ) */
-.share-image__connector {
-  width: 4px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.15);
-  margin: 0 auto 30px;
-  border-radius: 2px;
-}
-
-/* Finale */
-.share-image__finale {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 3px solid rgba(255, 255, 255, 0.15);
-  border-radius: 32px;
-  padding: 20px 40px;
-  margin-bottom: 30px;
-}
-
-.share-image__finale-team {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.share-image__finale-team--penalty-winner {
-  border: 4px solid #f28d00;
-  border-radius: 20px;
-  padding: 6px;
-}
-
-.share-image__finale-logo {
+.si-groups__team-logo {
   width: 100px;
   height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 16px;
 }
 
-.share-image__finale-logo img {
+.si-groups__team-logo img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
 
-.share-image__finale-score {
-  font-size: 64px;
-  font-weight: 900;
-  color: #ffffff;
-  min-width: 120px;
-  text-align: center;
-  line-height: 1;
+/* ==========================================================
+   SEMIFINALS (Y: 1050 to 1180)
+   ========================================================== */
+.si-semis-wrap {
+  position: absolute;
+  top: 1050px;
+  left: 0;
+  width: 1080px;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+.si-semis__match {
+  width: 380px;
+  height: 130px;
+  background: #ffffff;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.si-semis__team {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-24px);
+  width: 100px;
+  height: 100px;
+  border-radius: 18px;
 }
 
-/* Footer (Sieger & Sponsor) */
-.share-image__footer {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 80px;
+.si-semis__team--penalty {
+  border: 4px solid #f28d00;
+  padding: 4px;
+}
+
+.si-semis__logo {
   width: 100%;
-  margin-top: auto;
-}
-
-/* Sieger */
-.share-image__champion {
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 24px;
+  justify-content: center;
 }
 
-.share-image__champion-title {
-  font-size: 56px;
+.si-semis__logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.si-semis__score {
+  font-size: 72px;
   font-weight: 900;
   color: #f28d00;
-  letter-spacing: 0.05em;
   text-align: center;
+  line-height: 1;
+  transform: translateY(-30px);
+  /* move up slightly to counteract font baseline */
 }
 
-.share-image__champion-logo {
-  width: 160px;
-  height: 160px;
+/* ==========================================================
+   FINAL (Y: 1280 to 1460)
+   ========================================================== */
+.si-final-wrap {
+  position: absolute;
+  top: 1280px;
+  left: 200px;
+  /* (1080 - 680) / 2 */
+  width: 680px;
+  height: 180px;
+  background: #ffffff;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-sizing: border-box;
+  overflow: visible;
+  /* CRITICAL for crown visibility */
+}
+
+.si-final__team {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f28d00;
-  border-radius: 32px;
-  padding: 24px;
-  box-shadow: 0 0 60px rgba(242, 141, 0, 0.6);
+  width: 150px;
+  height: 150px;
+  border-radius: 24px;
+  overflow: visible;
+  /* CRITICAL for crown visibility */
+  z-index: 1; /* Creates a stacking context so crown z-index: -1 stays above the white wrapper */
 }
 
-.share-image__champion-logo img {
+.si-final__team--penalty {
+  border: 5px solid #f28d00;
+  padding: 6px;
+}
+
+.si-final__logo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.si-final__logo img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
 
-/* Sponsor */
-.share-image__sponsor {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+.si-final__crown {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 15px);
+  /* Pull down slightly to overlap top edge */
+  height: 90px;
+  width: auto;
+  z-index: -1;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
 }
 
-.share-image__sponsor-label {
-  font-size: 32px;
+.si-final__score {
+  font-size: 110px;
+  font-weight: 900;
+  color: #f28d00;
+  text-align: center;
+  line-height: 1;
+  transform: translateY(-40px);
+  /* move up slightly to counteract font baseline */
+}
+
+/* ==========================================================
+   FOOTER (Y: 1560 to 1720) -> 200px bottom padding
+   ========================================================== */
+.si-footer-wrap {
+  position: absolute;
+  top: 1500px;
+  left: 0;
+  width: 1080px;
+  height: 160px;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  gap: 30px;
+}
+
+.si-footer__label {
+  font-size: 36px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
+  color: #f28d00;
   font-style: italic;
 }
 
-.share-image__sponsor-logo {
-  width: 400px;
-  height: 100px;
+.si-footer__sponsor-logo {
+  height: 150px;
+  /* Much larger now */
+  width: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
-.share-image__sponsor-logo img {
-  max-width: 100%;
+.si-footer__sponsor-logo img {
   max-height: 100%;
+  max-width: 650px;
+  /* Limit width if needed, but height drives it */
   object-fit: contain;
 }

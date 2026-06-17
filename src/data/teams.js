@@ -82,4 +82,9 @@ export const RTC_LOGO = `${base}logos/logo_gr_new.png`;
  * Platzhalter-Logo für Sponsor (Hialsorb Cold)
  * → Echtes Logo ersetzen: /public/logos/hialsorb-cold.png
  */
-export const SPONSOR_LOGO = `${base}logos/05_Hialsorb-Boden.png`;
+export const SPONSOR_LOGO = `${base}logos/hialsorb_cold_transparent.png`;
+
+/**
+ * Krone für den Sieger im Share-Image
+ */
+export const CROWN_ICON = `${base}logos/crown.png`;

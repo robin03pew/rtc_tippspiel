@@ -1,5 +1,5 @@
 import React from 'react';
-import { GROUPS, findTeamById, RTC_LOGO, SPONSOR_LOGO } from '../data/teams';
+import { GROUPS, findTeamById, RTC_LOGO, SPONSOR_LOGO, CROWN_ICON } from '../data/teams';
 import './ShareImage.css';
 
 /**
@@ -8,13 +8,13 @@ import './ShareImage.css';
  * Wird von html2canvas erfasst, um die Instagram-Story-Grafik zu generieren.
  * Das Element wird via CSS herunterskaliert dargestellt, aber in voller Größe gerendert.
  * 
- * Layout (nach Mockup):
- * - "Dein Tipp:" Überschrift
- * - RTC Tippspiel Logo
- * - 4 Gruppen (A/B/C/D) mit je 3 Teams, Aufsteiger orange
- * - 2 Halbfinal-Ergebnisse
- * - Finale-Ergebnis
- * - "presented by" + Sponsor-Logo
+ * Layout (nach Mockup – hialsorb_story):
+ * - Fixed absolute positioning with 200px safe zones top and bottom
+ * - Single full-screen SVG overlay for thick, clean bracket lines
+ * - Unified white header container
+ * - Group stage vertical pills
+ * - Semifinals & Final
+ * - Horizontal Sponsor footer with presented by + logo
  */
 
 export default function ShareImage({
@@ -29,127 +29,130 @@ export default function ShareImage({
 }) {
   const isDraw = (match) => match.scoreA === match.scoreB;
 
+  // Determine which finalist is the champion (for crown placement)
+  const championSide = champion
+    ? champion.id === finalists.teamA?.id
+      ? 'A'
+      : champion.id === finalists.teamB?.id
+        ? 'B'
+        : null
+    : null;
+
   return (
     <div className="share-image-wrapper">
       <div className="share-image" ref={shareRef}>
-        {/* RTC Logo */}
-        <div className="share-image__logo-header">
-          <div className="share-image__rtc-logo">
-            {/* LOGO AUSTAUSCHEN: RTC Tippspiel Logo */}
-            <img src={RTC_LOGO} alt="Region Tullnerfeld Cup Tippspiel" />
+        
+        {/* ===== BRACKET CONNECTOR LINES (Full Screen Overlay) ===== */}
+        <svg className="si-bracket-overlay" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+          {/* Groups A & B to Semi 1 */}
+          <path d="M 180 960 L 180 1005 L 420 1005 L 420 960 M 300 1005 L 300 1050" />
+          {/* Groups C & D to Semi 2 */}
+          <path d="M 660 960 L 660 1005 L 900 1005 L 900 960 M 780 1005 L 780 1050" />
+          {/* Semis to Final */}
+          <path d="M 300 1180 L 300 1230 L 780 1230 L 780 1180 M 540 1230 L 540 1280" />
+        </svg>
+
+        {/* ===== CONTENT LAYERS ===== */}
+        <div className="si-content">
+
+          {/* HEADER: Y=200 */}
+          <div className="si-header-wrap">
+            <div className="si-header__logo">
+              <img src={RTC_LOGO} alt="Region Tullnerfeld Cup Tippspiel" />
+            </div>
+            <h1 className="si-header__title">MEIN TIPP</h1>
           </div>
-        </div>
 
-        {/* Überschrift */}
-        <h1 className="share-image__title">MEIN TIPP</h1>
-
-        {/* Gruppen */}
-        <div className="share-image__groups">
-          {/* Gruppen-Buchstaben */}
-          <div className="share-image__group-letters">
-            {Object.keys(GROUPS).map(key => (
-              <span key={key} className="share-image__group-letter">{key}</span>
-            ))}
-          </div>
-
-          {/* Gruppen-Teams */}
-          <div className="share-image__group-columns">
+          {/* GROUPS: Y=460 */}
+          <div className="si-groups-wrap">
             {Object.entries(GROUPS).map(([key, group]) => (
-              <div key={key} className="share-image__group-col">
-                {group.teams.map(team => {
-                  const isWinner = groupWinners[key] === team.id;
-                  return (
-                    <div
-                      key={team.id}
-                      className={`share-image__team-cell ${isWinner ? 'share-image__team-cell--winner' : ''}`}
-                    >
-                      <div className="share-image__team-logo">
-                        <img src={team.logo} alt={team.name} />
+              <div key={key} className="si-groups__col">
+                <div className="si-groups__letter">{key}</div>
+                <div className="si-groups__pill">
+                  {group.teams.map((team) => {
+                    const isWinner = groupWinners[key] === team.id;
+                    return (
+                      <div
+                        key={team.id}
+                        className={`si-groups__team-slot ${isWinner ? 'si-groups__team-slot--winner' : ''}`}
+                      >
+                        <div className="si-groups__team-logo">
+                          <img src={team.logo} alt={team.name} />
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Halbfinale */}
-        <div className="share-image__semis">
-          {[1, 2].map(semiId => {
-            const semi = semiFinals[semiId];
-            const teamA = semiFinalists[semiId]?.teamA;
-            const teamB = semiFinalists[semiId]?.teamB;
-            const winner = semiWinners[semiId];
-            const draw = isDraw(semi);
+          {/* SEMIFINALS: Y=1050 */}
+          <div className="si-semis-wrap">
+            {[1, 2].map(semiId => {
+              const semi = semiFinals[semiId];
+              const teamA = semiFinalists[semiId]?.teamA;
+              const teamB = semiFinalists[semiId]?.teamB;
+              const winner = semiWinners[semiId];
+              const draw = isDraw(semi);
 
-            if (!teamA || !teamB) return null;
+              if (!teamA || !teamB) return null;
 
-            return (
-              <div key={semiId} className="share-image__match">
-                <div className={`share-image__match-team ${draw && winner?.id === teamA.id ? 'share-image__match-team--penalty-winner' : ''}`}>
-                  <div className="share-image__match-logo">
-                    <img src={teamA.logo} alt={teamA.name} />
+              return (
+                <div key={semiId} className="si-semis__match">
+                  <div className={`si-semis__team ${draw && winner?.id === teamA.id ? 'si-semis__team--penalty' : ''}`}>
+                    <div className="si-semis__logo">
+                      <img src={teamA.logo} alt={teamA.name} />
+                    </div>
+                  </div>
+                  <span className="si-semis__score">
+                    {semi.scoreA}:{semi.scoreB}
+                  </span>
+                  <div className={`si-semis__team ${draw && winner?.id === teamB.id ? 'si-semis__team--penalty' : ''}`}>
+                    <div className="si-semis__logo">
+                      <img src={teamB.logo} alt={teamB.name} />
+                    </div>
                   </div>
                 </div>
-                <span className="share-image__match-score">
-                  {semi.scoreA}:{semi.scoreB}
-                </span>
-                <div className={`share-image__match-team ${draw && winner?.id === teamB.id ? 'share-image__match-team--penalty-winner' : ''}`}>
-                  <div className="share-image__match-logo">
-                    <img src={teamB.logo} alt={teamB.name} />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Verbindungslinien (dekorativ) */}
-        <div className="share-image__connector" />
-
-        {/* Finale */}
-        {finalists.teamA && finalists.teamB && (
-          <div className="share-image__finale">
-            <div className={`share-image__finale-team ${isDraw(finalScore) && champion?.id === finalists.teamA.id ? 'share-image__finale-team--penalty-winner' : ''}`}>
-              <div className="share-image__finale-logo">
-                <img src={finalists.teamA.logo} alt={finalists.teamA.name} />
-              </div>
-            </div>
-            <span className="share-image__finale-score">
-              {finalScore.scoreA}:{finalScore.scoreB}
-            </span>
-            <div className={`share-image__finale-team ${isDraw(finalScore) && champion?.id === finalists.teamB.id ? 'share-image__finale-team--penalty-winner' : ''}`}>
-              <div className="share-image__finale-logo">
-                <img src={finalists.teamB.logo} alt={finalists.teamB.name} />
-              </div>
-            </div>
+              );
+            })}
           </div>
-        )}
 
-        {/* Footer: Sieger & Sponsor nebeneinander */}
-        <div className="share-image__footer">
-          {/* Sieger */}
-          {champion && (
-            <div className="share-image__champion">
-              <h2 className="share-image__champion-title">SIEGER</h2>
-              <div style={{ position: 'relative' }}>
-                <div style={{ position: 'absolute', top: '-100px', left: '50%', transform: 'translateX(-50%)', fontSize: '80px', zIndex: 10, textShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>👑</div>
-                <div className="share-image__champion-logo">
-                  <img src={champion.logo} alt={champion.name} />
+          {/* FINAL: Y=1280 */}
+          {finalists.teamA && finalists.teamB && (
+            <div className="si-final-wrap">
+              <div className={`si-final__team ${isDraw(finalScore) && champion?.id === finalists.teamA.id ? 'si-final__team--penalty' : ''}`}>
+                {championSide === 'A' && (
+                  <img src={CROWN_ICON} alt="Crown" className="si-final__crown" />
+                )}
+                <div className="si-final__logo">
+                  <img src={finalists.teamA.logo} alt={finalists.teamA.name} />
+                </div>
+              </div>
+              
+              <span className="si-final__score">
+                {finalScore.scoreA}:{finalScore.scoreB}
+              </span>
+              
+              <div className={`si-final__team ${isDraw(finalScore) && champion?.id === finalists.teamB.id ? 'si-final__team--penalty' : ''}`}>
+                {championSide === 'B' && (
+                  <img src={CROWN_ICON} alt="Crown" className="si-final__crown" />
+                )}
+                <div className="si-final__logo">
+                  <img src={finalists.teamB.logo} alt={finalists.teamB.name} />
                 </div>
               </div>
             </div>
           )}
 
-          {/* Sponsor */}
-          <div className="share-image__sponsor">
-            <span className="share-image__sponsor-label">presented by</span>
-            <div className="share-image__sponsor-logo">
-              {/* LOGO AUSTAUSCHEN: Hialsorb Cold Sponsor-Logo */}
+          {/* FOOTER: Y=1560 */}
+          <div className="si-footer-wrap">
+            <span className="si-footer__label">presented by</span>
+            <div className="si-footer__sponsor-logo">
               <img src={SPONSOR_LOGO} alt="Hialsorb Cold" />
             </div>
           </div>
+
         </div>
       </div>
     </div>
