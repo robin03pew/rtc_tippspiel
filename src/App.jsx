@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { GROUPS, SEMI_FINAL_SCHEMA, RTC_LOGO } from './data/teams';
+import { GROUPS, SEMI_FINAL_SCHEMA, RTC_LOGO, SPONSOR_LOGO } from './data/teams';
 import { useTippState } from './hooks/useTippState';
 import GroupCard from './components/GroupCard';
 import MatchCard from './components/MatchCard';
@@ -93,8 +93,12 @@ export default function App() {
           {/* LOGO AUSTAUSCHEN: RTC Tippspiel Logo */}
           <img src={RTC_LOGO} alt="Region Tullnerfeld Cup Tippspiel" />
         </div>
+
         <h1 className="app__title">Tippspiel</h1>
-        <p className="app__subtitle">Region Tullnerfeld Cup</p>
+        <div className="app__header-sponsor">
+          <span className="app__header-sponsor-label">presented by</span>
+          <img src={SPONSOR_LOGO} alt="Hialsorb Cold" className="app__header-sponsor-logo" />
+        </div>
       </header>
 
       {/* Intro */}
@@ -102,8 +106,8 @@ export default function App() {
         <div className="app__intro-card">
           <h2 className="app__intro-heading">Wer holt den Cup? ⚽</h2>
           <p className="app__intro-text">
-            12 Vereine, 4 Gruppen, ein Sieger – und du sagst vorher, wer's wird! 
-            Wähle in jeder Gruppe deinen Favoriten, tippe die Halbfinal- und 
+            12 Vereine, 4 Gruppen, ein Sieger – und du sagst vorher, wer's wird!
+            Wähle in jeder Gruppe deinen Favoriten, tippe die Halbfinal- und
             Finalergebnisse und teile deinen Tipp auf Instagram.
           </p>
           <div className="app__intro-steps">
@@ -130,7 +134,7 @@ export default function App() {
           Wähle die Gruppensieger
         </h2>
         <p className="app__section-desc">Klicke in jeder Gruppe auf das Team, das du als Aufsteiger siehst.</p>
-        
+
         <div className="app__groups-grid">
           {Object.entries(GROUPS).map(([key, group]) => (
             <GroupCard
@@ -218,7 +222,7 @@ export default function App() {
           <span className="app__section-step">Schritt 4</span>
           Teile deinen Tipp!
         </h2>
-        
+
         <ShareButton
           isComplete={tipp.isComplete}
           shareImageRef={shareImageRef}

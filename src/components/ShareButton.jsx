@@ -13,7 +13,7 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
   // Pre-generate the image when predictions change and are complete
   useEffect(() => {
     let timeoutId;
-    
+
     if (isComplete && shareImageRef?.current) {
       setLoading(true);
       setError(null);
@@ -23,12 +23,12 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
           console.log('[ShareButton] Pre-generating image blob...');
           const blob = await generateShareImage(shareImageRef.current);
           setPreparedBlob(blob);
-          
+
           setGeneratedImageUrl(prev => {
             if (prev) URL.revokeObjectURL(prev);
             return URL.createObjectURL(blob);
           });
-          
+
           console.log('[ShareButton] Blob prepared successfully.');
         } catch (err) {
           console.error('[ShareButton] Error pre-generating:', err);
@@ -44,7 +44,7 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
         setGeneratedImageUrl(null);
       }
     }
-    
+
     return () => {
       clearTimeout(timeoutId);
     };
@@ -102,7 +102,7 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
         onClick={handleShare}
         disabled={!isComplete || loading || !preparedBlob}
         id="share-button"
-        aria-label={canShare ? 'Auf Instagram teilen' : 'Bild speichern'}
+        aria-label={canShare ? 'In Story teilen!' : 'Bild speichern'}
       >
         {loading ? (
           <>
@@ -126,7 +126,7 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
                 </>
               )}
             </svg>
-            <span>{canShare ? 'Auf Instagram teilen' : 'Bild speichern'}</span>
+            <span>{canShare ? 'In Story teilen!' : 'Bild speichern'}</span>
           </>
         )}
       </button>
@@ -134,9 +134,24 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
       {error && <p className="share-section__error">{error}</p>}
 
       {generatedImageUrl && (
-        <div className="share-section__preview">
-          <p className="share-section__preview-hint">Tipp: Halte das Bild gedrückt oder mache einen Rechtsklick, um es zu kopieren oder zu speichern.</p>
-          <img src={generatedImageUrl} alt="Dein generierter Tipp" className="share-section__preview-image" />
+        <div className="share-section__post-generate">
+          <div className="sponsor-promo">
+            <span className="sponsor-promo__label">advertised with</span>
+            <div className="sponsor-promo__card">
+              <img src={`${import.meta.env.BASE_URL}logos/hialsorb_product.webp`} alt="Hialsorb Cold Produkt" className="sponsor-promo__image" />
+              <div className="sponsor-promo__content">
+                <h3 className="sponsor-promo__title">Regeneration für deine Muskeln</h3>
+                <a href="https://trbchemedica.us16.list-manage.com/subscribe?u=9063d0c7041a52e4d65e56c26&id=bc7a7bcd6c" target="_blank" rel="noopener noreferrer" className="sponsor-promo__btn">
+                  100% gratis Produktmuster bestellen
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="share-section__preview">
+            <p className="share-section__preview-hint">Tipp: Halte das Bild gedrückt oder mache einen Rechtsklick, um es zu kopieren oder zu speichern.</p>
+            <img src={generatedImageUrl} alt="Dein generierter Tipp" className="share-section__preview-image" />
+          </div>
         </div>
       )}
     </div>

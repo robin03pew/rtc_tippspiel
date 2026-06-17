@@ -23,7 +23,7 @@
 .app__header-logo {
   width: 260px;
   height: 100px;
-  margin: 0 auto var(--space-md);
+  margin: 0 auto var(--space-xs);
   background: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-xl);
   display: flex;
@@ -39,12 +39,36 @@
   object-fit: contain;
 }
 
+.app__header-sponsor {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: var(--space-md);
+}
+
+.app__header-sponsor-label {
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-accent);
+  font-style: italic;
+  margin-top: 4px; /* Slight bump down so it looks naturally aligned with the top of the logo text */
+}
+
+.app__header-sponsor-logo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
 .app__title {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: var(--font-weight-black);
   color: var(--color-text-light);
   letter-spacing: -0.02em;
   line-height: 1.1;
+  margin-bottom: var(--space-xs);
 }
 
 .app__subtitle {
@@ -93,6 +117,7 @@
 }
 
 .app__intro-step {
+  flex: 1; /* Makes all 3 items perfectly equally wide */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -247,7 +272,7 @@
   }
 
   .app__title {
-    font-size: 1.75rem;
+    font-size: 2.25rem;
   }
 
   .app__intro-steps {
@@ -261,7 +286,7 @@
 
 @media (min-width: 480px) {
   .app__title {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
   }
 
   .app__groups-grid {
