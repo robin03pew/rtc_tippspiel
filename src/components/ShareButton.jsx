@@ -1,43 +1,91 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { generateShareImage } from '../utils/generateImage';
-import { canNativeShareFiles, shareImageFile, downloadImage } from '../utils/share';
+import { canNativeShareFiles, downloadImage } from '../utils/share';
 import './ShareButton.css';
 
-export default function ShareButton({ isComplete, shareImageRef, missingSteps }) {
+export default function ShareButton({ isComplete, shareImageRef, missingSteps, tippState }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [preparedBlob, setPreparedBlob] = useState(null);
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const canShare = canNativeShareFiles();
 
-  const handleShare = async () => {
-    if (!shareImageRef?.current) return;
+  // Pre-generate the image when predictions change and are complete
+  useEffect(() => {
+    let timeoutId;
+    
+    if (isComplete && shareImageRef?.current) {
+      setLoading(true);
+      setError(null);
+      // Debounce generation to avoid running expensive html2canvas on every keystroke
+      timeoutId = setTimeout(async () => {
+        try {
+          console.log('[ShareButton] Pre-generating image blob...');
+          const blob = await generateShareImage(shareImageRef.current);
+          setPreparedBlob(blob);
+          
+          setGeneratedImageUrl(prev => {
+            if (prev) URL.revokeObjectURL(prev);
+            return URL.createObjectURL(blob);
+          });
+          
+          console.log('[ShareButton] Blob prepared successfully.');
+        } catch (err) {
+          console.error('[ShareButton] Error pre-generating:', err);
+          setError('Das Bild konnte nicht vorbereitet werden.');
+        } finally {
+          setLoading(false);
+        }
+      }, 700);
+    } else {
+      setPreparedBlob(null);
+      if (generatedImageUrl) {
+        URL.revokeObjectURL(generatedImageUrl);
+        setGeneratedImageUrl(null);
+      }
+    }
+    
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [isComplete, tippState, shareImageRef]); // Re-run if state changes
 
-    setLoading(true);
-    setError(null);
+  const handleShare = () => {
+    if (!preparedBlob) {
+      console.error('[ShareButton] No prepared blob available at click time.');
+      return;
+    }
 
     try {
-      const blob = await generateShareImage(shareImageRef.current);
-      const url = URL.createObjectURL(blob);
-      setGeneratedImageUrl(url);
+      const file = new File([preparedBlob], 'mein-tipp-rtc.png', { type: 'image/png' });
+      const shareData = {
+        files: [file],
+        title: 'Mein Tipp – Region Tullnerfeld Cup',
+        text: 'Das ist mein Tipp für den Region Tullnerfeld Cup! ⚽',
+      };
 
-      if (canShare) {
-        try {
-          await shareImageFile(blob);
-        } catch (shareErr) {
-          // User hat Share abgebrochen – kein Fehler
-          if (shareErr.name !== 'AbortError') {
-            // Fallback auf Download wenn Share fehlschlägt
-            downloadImage(blob);
+      if (canShare && navigator.canShare && navigator.canShare(shareData)) {
+        console.log('[ShareButton] canShare returned true, invoking synchronous navigator.share...');
+        // CRITICAL: Call navigator.share SYNCHRONOUSLY without any preceding await.
+        navigator.share(shareData).then(() => {
+          console.log('[ShareButton] Share successful');
+        }).catch(err => {
+          if (err.name === 'AbortError') {
+            console.log('[ShareButton] Share aborted by user (AbortError)');
+            return;
           }
-        }
+          console.error('[ShareButton] Share failed with real error:', err);
+          // Fallback to download if the share dialog fails to open
+          downloadImage(preparedBlob);
+        });
       } else {
-        downloadImage(blob);
+        console.log('[ShareButton] Native file sharing not supported for this payload, falling back to download');
+        downloadImage(preparedBlob);
       }
     } catch (err) {
-      console.error('Share-Image Fehler:', err);
-      setError('Das Bild konnte nicht erstellt werden. Bitte versuche es erneut.');
-    } finally {
-      setLoading(false);
+      console.error('[ShareButton] Synchronous error during share handling:', err);
+      setError('Teilen fehlgeschlagen. Bild wird heruntergeladen.');
+      downloadImage(preparedBlob);
     }
   };
 
@@ -52,27 +100,25 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps })
       <button
         className={`share-btn ${loading ? 'share-btn--loading' : ''}`}
         onClick={handleShare}
-        disabled={!isComplete || loading}
+        disabled={!isComplete || loading || !preparedBlob}
         id="share-button"
         aria-label={canShare ? 'Auf Instagram teilen' : 'Bild speichern'}
       >
         {loading ? (
           <>
             <span className="share-btn__spinner" />
-            <span>Bild wird erstellt&hellip;</span>
+            <span>Bild wird vorbereitet&hellip;</span>
           </>
         ) : (
           <>
             <svg className="share-btn__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               {canShare ? (
-                /* Share icon */
                 <>
                   <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
                   <polyline points="16 6 12 2 8 6" />
                   <line x1="12" y1="2" x2="12" y2="15" />
                 </>
               ) : (
-                /* Download icon */
                 <>
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                   <polyline points="7 10 12 15 17 10" />

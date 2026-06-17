@@ -223,6 +223,7 @@ export default function App() {
           isComplete={tipp.isComplete}
           shareImageRef={shareImageRef}
           missingSteps={getMissingSteps()}
+          tippState={tipp.state}
         />
       </section>
 
