@@ -3,6 +3,16 @@ import { generateShareImage } from '../utils/generateImage';
 import { canNativeShareFiles, downloadImage } from '../utils/share';
 import './ShareButton.css';
 
+function countHit(key) {
+  // fire-and-forget; ignore all errors, never block UI
+  try {
+    fetch(`https://countapi.mileshilliard.com/api/v1/hit/${key}`, { 
+      method: 'GET', 
+      keepalive: true 
+    }).catch(() => {});
+  } catch (e) { /* ignore */ }
+}
+
 export default function ShareButton({ isComplete, shareImageRef, missingSteps, tippState }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -55,6 +65,8 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
       console.error('[ShareButton] No prepared blob available at click time.');
       return;
     }
+
+    countHit('rtc-tippspiel-2026-shares-x7k2');
 
     try {
       const file = new File([preparedBlob], 'mein-tipp-rtc.png', { type: 'image/png' });
@@ -138,7 +150,7 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
           <img src={`${import.meta.env.BASE_URL}logos/hialsorb_product.webp`} alt="Hialsorb Cold Produkt" className="sponsor-promo__image" />
           <div className="sponsor-promo__content">
             <h3 className="sponsor-promo__title">Regeneration für deine Muskeln</h3>
-            <a href="https://trbchemedica.us16.list-manage.com/subscribe?u=9063d0c7041a52e4d65e56c26&id=bc7a7bcd6c" target="_blank" rel="noopener noreferrer" className="sponsor-promo__btn">
+            <a href="https://trbchemedica.us16.list-manage.com/subscribe?u=9063d0c7041a52e4d65e56c26&id=bc7a7bcd6c" target="_blank" rel="noopener noreferrer" className="sponsor-promo__btn" onClick={() => countHit('rtc-tippspiel-2026-muster-x7k2')}>
               100% gratis Produktmuster bestellen
             </a>
           </div>

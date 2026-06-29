@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistiken - RTC Tippspiel</title>
+  <style>
+    :root {
+      --bg-color: #f5f6fa;
+      --navy: #212b70;
+      --orange: #f28d00;
+      --card-bg: #ffffff;
+      --text: #333333;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+    }
+    header {
+      background-color: var(--navy);
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (min-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .stat-card.full-width {
+        grid-column: 1 / -1;
+      }
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-top: 5px solid var(--orange);
+      text-align: center;
+      transition: opacity 0.3s;
+    }
+    .stat-card h2 {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: #666;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+    .stat-value {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0;
+      line-height: 1.1;
+    }
+    .stat-sub {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: #777;
+      background: #f8f9fb;
+      padding: 0.5rem;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .actions {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    button {
+      background-color: var(--orange);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      box-shadow: 0 2px 4px rgba(242, 141, 0, 0.3);
+    }
+    button:hover {
+      background-color: #d97d00;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:disabled {
+      background-color: #ccc;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    .is-loading .stat-card {
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>RTC Tippspiel - Stats</h1>
+  </header>
+
+  <div class="container">
+    <div class="stats-grid" id="statsContainer">
+      <div class="stat-card full-width">
+        <h2>Seitenaufrufe</h2>
+        <div class="stat-value" id="val-pageviews">...</div>
+      </div>
+      
+      <div class="stat-card">
+        <h2>Tipps geteilt</h2>
+        <div class="stat-value" id="val-shares">...</div>
+        <div class="stat-sub" id="val-share-rate">Teilen-Quote: ...</div>
+      </div>
+      
+      <div class="stat-card">
+        <h2>Muster-Link Klicks</h2>
+        <div class="stat-value" id="val-muster">...</div>
+        <div class="stat-sub" id="val-muster-rate">Muster-Klick-Quote pro Tipp: ...</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="refreshBtn" onclick="fetchStats()">Aktualisieren</button>
+    </div>
+  </div>
+
+  <script>
+    const KEYS = {
+      pageviews: 'rtc-tippspiel-2026-pageviews-x7k2',
+      shares: 'rtc-tippspiel-2026-shares-x7k2',
+      muster: 'rtc-tippspiel-2026-muster-x7k2'
+    };
+
+    const BASE_URL = 'https://countapi.mileshilliard.com/api/v1/get/';
+
+    async function fetchValue(key) {
+      try {
+        const res = await fetch(BASE_URL + key);
+        if (!res.ok) throw new Error('Network error');
+        const data = await res.json();
+        return data.value || 0;
+      } catch (e) {
+        console.error('Error fetching ' + key, e);
+        return null; // Return null on error so we can display "—"
+      }
+    }
+
+    async function fetchStats() {
+      const btn = document.getElementById('refreshBtn');
+      const container = document.getElementById('statsContainer');
+      
+      btn.disabled = true;
+      btn.textContent = 'Wird aktualisiert...';
+      container.classList.add('is-loading');
+
+      const [pageviews, shares, muster] = await Promise.all([
+        fetchValue(KEYS.pageviews),
+        fetchValue(KEYS.shares),
+        fetchValue(KEYS.muster)
+      ]);
+
+      const formatNumber = (num) => num === null ? '—' : num.toLocaleString('de-AT');
+      
+      document.getElementById('val-pageviews').textContent = formatNumber(pageviews);
+      document.getElementById('val-shares').textContent = formatNumber(shares);
+      document.getElementById('val-muster').textContent = formatNumber(muster);
+
+      // Calculate shares / pageviews
+      const shareRateEl = document.getElementById('val-share-rate');
+      if (pageviews > 0 && shares !== null) {
+        const shareRate = Math.round((shares / pageviews) * 100);
+        shareRateEl.textContent = 'Teilen-Quote: ' + shareRate + '%';
+      } else {
+        shareRateEl.textContent = 'Teilen-Quote: —';
+      }
+
+      // Calculate muster / shares
+      const musterRateEl = document.getElementById('val-muster-rate');
+      if (shares > 0 && muster !== null) {
+        const musterRate = Math.round((muster / shares) * 100);
+        musterRateEl.textContent = 'Muster-Klick-Quote pro Tipp: ' + musterRate + '%';
+      } else {
+        musterRateEl.textContent = 'Muster-Klick-Quote pro Tipp: —';
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Aktualisieren';
+      container.classList.remove('is-loading');
+    }
+
+    // Fetch immediately on load
+    fetchStats();
+  </script>
+</body>
+</html>

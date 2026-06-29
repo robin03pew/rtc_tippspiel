@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import { GROUPS, SEMI_FINAL_SCHEMA, RTC_LOGO, SPONSOR_LOGO } from './data/teams';
 import { useTippState } from './hooks/useTippState';
 import GroupCard from './components/GroupCard';
@@ -8,8 +8,21 @@ import ShareImage from './components/ShareImage';
 import Footer from './components/Footer';
 import './App.css';
 
+function countHit(key) {
+  try {
+    fetch(`https://countapi.mileshilliard.com/api/v1/hit/${key}`, {
+      method: 'GET',
+      keepalive: true
+    }).catch(() => {});
+  } catch (e) { /* ignore */ }
+}
+
 export default function App() {
   const tipp = useTippState();
+
+  useEffect(() => {
+    countHit('rtc-tippspiel-2026-pageviews-x7k2');
+  }, []);
   const shareImageRef = useRef(null);
   const dialogRef = useRef(null);
   const dialogContentRef = useRef(null);
@@ -37,17 +50,28 @@ export default function App() {
     impressum: {
       title: 'Impressum',
       body: `
-        <p><strong>Informationspflicht laut §5 E-Commerce Gesetz, §14 Unternehmensgesetzbuch, §63 Gewerbeordnung und Offenlegungspflicht laut §25 Mediengesetz.</strong></p>
+        <p><strong>Informationen und Offenlegung gemäß §5 (1) ECG, § 25 MedienG, § 63 GewO und § 14 UGB</strong></p>
         <p>
-          Organisationskomitee Region Tullnerfeld Cup<br>
-          Musterstraße 1<br>
-          3430 Tulln an der Donau<br>
-          Österreich
+          Webseitenbetreiber: Christoph Bayerl, B.Sc., MBA<br>
+          Anschrift: Am Mittergwendt 20/10, 3430 Tulln<br>
+          Gewerbeaufsichtbehörde: Bezirkshauptmannschaft Tulln<br>
+          Mitgliedschaften: Wirtschaftskammer Niederösterreich (WKNÖ)
         </p>
-        <p><strong>ZVR-Zahl:</strong> 123456789 (Bitte eintragen)</p>
-        <p><strong>E-Mail:</strong> info@dein-verein.at (Bitte eintragen)</p>
-        <p><strong>Vereinszweck:</strong> Förderung des Fußballsports in der Region Tullnerfeld.</p>
-        <p><em>Verantwortlich für den Inhalt:</em> Der Vereinsvorstand.</p>
+        <p>
+          Telefon: +43/677/61922065<br>
+          Email: bayerl@cb-marketing.at
+        </p>
+        <p>
+          Anwendbare Rechtsvorschrift: www.ris.bka.gv.at<br>
+          Berufsbezeichnung: Werbeagentur, Eventmanagement<br>
+          Online Streitbeilegung: Verbraucher, welche in Österreich oder in einem sonstigen Vertragsstaat der ODR-VO niedergelassen sind, haben die Möglichkeit Probleme bezüglich dem entgeltlichen Kauf von Waren oder Dienstleistungen im Rahmen einer Online-Streitbeilegung (nach OS, AStG) zu lösen. Die Europäische Kommission stellt eine Plattform hierfür bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>
+        </p>
+        <p>
+          Urheberrecht: Die Inhalte dieser Webseite unterliegen, soweit dies rechtlich möglich ist, diversen Schutzrechten (z.B dem Urheberrecht). Jegliche Verwendung/Verbreitung von bereitgestelltem Material, welche urheberrechtlich untersagt ist, bedarf schriftlicher Zustimmung des Webseitenbetreibers.<br>
+          Haftungsausschluss: Trotz sorgfältiger inhaltlicher Kontrolle übernimmt der Webseitenbetreiber dieser Webseite keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich. Sollten Sie dennoch auf ausgehende Links aufmerksam werden, welche auf eine Webseite mit rechtswidriger Tätigkeit/Information verweisen, ersuchen wir um dementsprechenden Hinweis, um diese nach § 17 Abs. 2 ECG umgehend zu entfernen.<br>
+          Die Urheberrechte Dritter werden vom Betreiber dieser Webseite mit größter Sorgfalt beachtet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden derartiger Rechtsverletzungen werden wir den betroffenen Inhalt umgehend entfernen.
+        </p>
+        <p><em>Rechtstext von Quelle: fairesRecht.at in Kooperation mit Rechtsanwalt Gebrauchtwagen Kauf</em></p>
       `,
     },
   };
