@@ -102,7 +102,7 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
         onClick={handleShare}
         disabled={!isComplete || loading || !preparedBlob}
         id="share-button"
-        aria-label={canShare ? 'In Story teilen!' : 'Bild speichern'}
+        aria-label={canShare ? 'Tipp teilen' : 'Bild speichern'}
       >
         {loading ? (
           <>
@@ -126,27 +126,28 @@ export default function ShareButton({ isComplete, shareImageRef, missingSteps, t
                 </>
               )}
             </svg>
-            <span>{canShare ? 'In Story teilen!' : 'Bild speichern'}</span>
+            <span>{canShare ? 'Tipp teilen' : 'Bild speichern'}</span>
           </>
         )}
       </button>
 
       {error && <p className="share-section__error">{error}</p>}
 
+      <div className="sponsor-promo" style={{ marginTop: 'var(--space-md)' }}>
+        <div className="sponsor-promo__card">
+          <img src={`${import.meta.env.BASE_URL}logos/hialsorb_product.webp`} alt="Hialsorb Cold Produkt" className="sponsor-promo__image" />
+          <div className="sponsor-promo__content">
+            <h3 className="sponsor-promo__title">Regeneration für deine Muskeln</h3>
+            <a href="https://trbchemedica.us16.list-manage.com/subscribe?u=9063d0c7041a52e4d65e56c26&id=bc7a7bcd6c" target="_blank" rel="noopener noreferrer" className="sponsor-promo__btn">
+              100% gratis Produktmuster bestellen
+            </a>
+          </div>
+        </div>
+      </div>
+
       {generatedImageUrl && (
         <div className="share-section__post-generate">
-          <div className="sponsor-promo">
-            <span className="sponsor-promo__label">advertised with</span>
-            <div className="sponsor-promo__card">
-              <img src={`${import.meta.env.BASE_URL}logos/hialsorb_product.webp`} alt="Hialsorb Cold Produkt" className="sponsor-promo__image" />
-              <div className="sponsor-promo__content">
-                <h3 className="sponsor-promo__title">Regeneration für deine Muskeln</h3>
-                <a href="https://trbchemedica.us16.list-manage.com/subscribe?u=9063d0c7041a52e4d65e56c26&id=bc7a7bcd6c" target="_blank" rel="noopener noreferrer" className="sponsor-promo__btn">
-                  100% gratis Produktmuster bestellen
-                </a>
-              </div>
-            </div>
-          </div>
+
 
           <div className="share-section__preview">
             <p className="share-section__preview-hint">Tipp: Halte das Bild gedrückt oder mache einen Rechtsklick, um es zu kopieren oder zu speichern.</p>

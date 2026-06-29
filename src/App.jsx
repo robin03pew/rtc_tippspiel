@@ -117,7 +117,7 @@ export default function App() {
             </div>
             <div className="app__intro-step">
               <span className="app__intro-step-num">2</span>
-              <span>Ergebnisse tippen</span>
+              <span>Ergebnisse der KO-Phase tippen</span>
             </div>
             <div className="app__intro-step">
               <span className="app__intro-step-num">3</span>
@@ -251,6 +251,8 @@ export default function App() {
           </button>
         </div>
       )}
+
+
 
       {/* Footer */}
       <Footer onOpenDialog={openDialog} />
